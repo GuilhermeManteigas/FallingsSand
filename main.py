@@ -22,9 +22,11 @@ COLOR_PURPLE = "\033[1;35;40m"
 COLOR_CYAN = "\033[1;36;40m"
 COLOR_WHITE = "\033[1;37;40m"
 
+PLAYER_ROW = 11
 game_on = []
 game_time = 0
 sand_dodged = 0
+sand_list = []
 
 map = [
     [COLOR_PURPLE + "+", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-",
@@ -54,8 +56,6 @@ map = [
     [COLOR_PURPLE + "+", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-",
      "-", "-", "-", "-", "-", "+"]]
 
-PLAYER_ROW = 11
-
 
 def timer():
     while len(game_on) < 1:
@@ -84,9 +84,6 @@ def print_map():
         clear()
         m, s, ms = get_time(game_time)
         print(temp.format(m, s, ms, sand_dodged))
-
-
-sand_list = []
 
 
 def create_sand():
