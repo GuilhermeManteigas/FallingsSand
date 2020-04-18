@@ -56,9 +56,6 @@ def gettime(time):
     ms = (time % 1000) // 10
     s = (time//1000) % 60
     m = ((time//1000)//60) % 60
-    #while s > 60:
-     #   s -= 60
-      #  m += 1
     return [m, s, ms]
 
 
@@ -95,20 +92,15 @@ def update_sand():
             vertical = i[0]
             horizontal = i[1]
             if vertical <= 11:
-                # print("here")
                 map[vertical][horizontal] = " "
                 map[vertical + 1][horizontal] = "-"
                 sand_list[index] = [vertical + 1, horizontal]
-            #elif vertical == 11:
-                #sand_list[index] = [vertical + 1, horizontal]
             else:
-                #map[vertical][horizontal] = " "
                 sand_list.remove([vertical, horizontal])
         threading.Thread(target=check_impact).start()
 
 
 def check_impact():
-    #while len(game_on) < 1:
     for i in sand_list:
         if i[1] == player_position:
             if i[0] == 11:
@@ -128,9 +120,6 @@ sandCreator.start()
 
 sandUpdater = threading.Thread(target=update_sand)
 sandUpdater.start()
-
-#checkImpactUpdater = threading.Thread(target=check_impact)
-#checkImpactUpdater.start()
 
 player_position = 14
 map[PLAYER_ROW][player_position] = "O"
