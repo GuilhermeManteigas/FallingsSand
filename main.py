@@ -11,35 +11,45 @@ kernel32.SetConsoleMode(kernel32.GetStdHandle(-10), 128)
 
 clear = lambda: os.system('cls')
 
+COLOR_BLACK = "\033[1;30;40m"
+COLOR_RED = "\033[1;31;40m"
+COLOR_GREEN = "\033[1;32;40m"
+COLOR_YELLOW = "\033[1;33;40m"
+COLOR_BLUE = "\033[1;34;40m"
+COLOR_PURPLE = "\033[1;35;40m"
+COLOR_CYAN = "\033[1;36;40m"
+COLOR_WHITE = "\033[1;37;40m"
+
 game_on = []
 game_time = 0
+sand_dodged = 0
 
 map = [
-    ["+", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-",
-     "-", "-", "-", "-", "-", "+"],
-    ["|", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
-     " ", " ", " ", " ", " ", "|"],
-    ["|", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
-     " ", " ", " ", " ", " ", "|"],
-    ["|", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
-     " ", " ", " ", " ", " ", "|"],
-    ["|", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
-     " ", " ", " ", " ", " ", "|"],
-    ["|", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
-     " ", " ", " ", " ", " ", "|"],
-    ["|", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
-     " ", " ", " ", " ", " ", "|"],
-    ["|", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
-     " ", " ", " ", " ", " ", "|"],
-    ["|", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
-     " ", " ", " ", " ", " ", "|"],
-    ["|", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
-     " ", " ", " ", " ", " ", "|"],
-    ["|", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
-     " ", " ", " ", " ", " ", "|"],
-    ["|", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
-     " ", " ", " ", " ", " ", "|"],
-    ["+", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-",
+    [COLOR_PURPLE + "+", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-",
+     "-", "-", "-", "-", "-", "+" + COLOR_PURPLE],
+    ["|", COLOR_YELLOW + " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
+     " ", " ", " ", " ", " ",  COLOR_PURPLE + "|"],
+    ["|", COLOR_YELLOW + " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
+     " ", " ", " ", " ", " ", COLOR_PURPLE + "|"],
+    ["|", COLOR_YELLOW + " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
+     " ", " ", " ", " ", " ", COLOR_PURPLE + "|"],
+    ["|", COLOR_YELLOW + " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
+     " ", " ", " ", " ", " ", COLOR_PURPLE + "|"],
+    ["|", COLOR_YELLOW + " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
+     " ", " ", " ", " ", " ", COLOR_PURPLE + "|"],
+    ["|", COLOR_YELLOW + " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
+     " ", " ", " ", " ", " ", COLOR_PURPLE + "|"],
+    ["|", COLOR_YELLOW + " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
+     " ", " ", " ", " ", " ", COLOR_PURPLE + "|"],
+    ["|", COLOR_YELLOW + " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
+     " ", " ", " ", " ", " ", COLOR_PURPLE + "|"],
+    ["|", COLOR_YELLOW + " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
+     " ", " ", " ", " ", " ", COLOR_PURPLE + "|"],
+    ["|", COLOR_YELLOW + " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
+     " ", " ", " ", " ", " ", COLOR_PURPLE + "|"],
+    ["|", COLOR_YELLOW + " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
+     " ", " ", " ", " ", " ", COLOR_PURPLE + "|"],
+    [COLOR_PURPLE + "+", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-",
      "-", "-", "-", "-", "-", "+"]]
 
 PLAYER_ROW = 11
@@ -52,7 +62,7 @@ def timer():
         game_time += 100
 
 
-def gettime(time):
+def get_time(time):
     ms = (time % 1000) // 10
     s = (time//1000) % 60
     m = ((time//1000)//60) % 60
@@ -66,11 +76,12 @@ def print_map():
             for j in i:
                 temp += j
             temp += "\n"
-        temp += "|      Time - {:>02}:{:>02}:{:>02}      |\n"
+        temp += "|     " + COLOR_CYAN + "Time       " + COLOR_GREEN + "Points" + COLOR_PURPLE + "     |\n"
+        temp += "|   " + COLOR_CYAN + "{:>02}:{:>02}:{:>02}      " + COLOR_GREEN + "{:>04}      " + COLOR_PURPLE + "|\n"
         temp += "|---------------------------|\n"
         clear()
-        m, s, ms = gettime(game_time)
-        print(temp.format(m, s, ms))
+        m, s, ms = get_time(game_time)
+        print(temp.format(m, s, ms, sand_dodged))
 
 
 sand_list = []
@@ -97,6 +108,8 @@ def update_sand():
                 sand_list[index] = [vertical + 1, horizontal]
             else:
                 sand_list.remove([vertical, horizontal])
+                global sand_dodged
+                sand_dodged += 1
         threading.Thread(target=check_impact).start()
 
 
@@ -122,7 +135,7 @@ sandUpdater = threading.Thread(target=update_sand)
 sandUpdater.start()
 
 player_position = 14
-map[PLAYER_ROW][player_position] = "O"
+map[PLAYER_ROW][player_position] = COLOR_RED + "O" + COLOR_BLACK
 
 while len(game_on) < 1:
     key = getch()
@@ -130,13 +143,13 @@ while len(game_on) < 1:
         if player_position > 1:
             map[PLAYER_ROW][player_position] = " "
             player_position -= 1
-            if map[PLAYER_ROW][player_position] == "-":
-                sand_list.remove([PLAYER_ROW, player_position])
-            map[PLAYER_ROW][player_position] = "O"
+            #if map[PLAYER_ROW][player_position] == "-":
+            #sand_list.remove([PLAYER_ROW, player_position])
+            map[PLAYER_ROW][player_position] = COLOR_RED + "O" + COLOR_BLACK
     elif key == b'M':
         if player_position < 27:
             map[PLAYER_ROW][player_position] = " "
             player_position += 1
-            if map[PLAYER_ROW][player_position] == "-":
-                sand_list.remove([PLAYER_ROW, player_position])
-            map[PLAYER_ROW][player_position] = "O"
+            #if map[PLAYER_ROW][player_position] == "-":
+            #sand_list.remove([PLAYER_ROW, player_position])
+            map[PLAYER_ROW][player_position] = COLOR_RED + "O" + COLOR_BLACK
