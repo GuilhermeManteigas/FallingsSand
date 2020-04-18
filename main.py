@@ -23,7 +23,7 @@ COLOR_CYAN = "\033[1;36;40m"
 COLOR_WHITE = "\033[1;37;40m"
 
 PLAYER_ROW = 11
-game_on = []
+game_on = True
 game_time = 0
 sand_dodged = 0
 sand_list = []
@@ -58,7 +58,7 @@ map = [
 
 
 def timer():
-    while len(game_on) < 1:
+    while game_on:
         time.sleep(0.1)
         global game_time
         game_time += 100
@@ -72,7 +72,7 @@ def get_time(time):
 
 
 def print_map():
-    while len(game_on) < 1:
+    while game_on:
         temp = ""
         for i in map:
             for j in i:
@@ -80,14 +80,14 @@ def print_map():
             temp += "\n"
         temp += "|     " + COLOR_YELLOW + "Time       " + COLOR_YELLOW + "Points" + COLOR_PURPLE + "     |\n"
         temp += "|   " + COLOR_CYAN + "{:>02}:{:>02}:{:>02}      " + COLOR_GREEN + "{:>04}      " + COLOR_PURPLE + "|\n"
-        temp += "|---------------------------|"
+        temp += "+---------------------------+"
         clear()
         m, s, ms = get_time(game_time)
         print(temp.format(m, s, ms, sand_dodged))
 
 
 def create_sand():
-    while len(game_on) < 1:
+    while game_on:
         time.sleep(0.5 * (((2200 - sand_dodged)//200)/10))
         rand = random.randint(1, 27)
         if map[1][rand] == " ":
@@ -96,7 +96,7 @@ def create_sand():
 
 
 def update_sand():
-    while len(game_on) < 1:
+    while game_on:
         time.sleep(0.5)
         for index, i in enumerate(sand_list):
             vertical = i[0]
@@ -116,18 +116,14 @@ def check_impact():
     for i in sand_list:
         if i[1] == player_position:
             if i[0] == 11:
+                global game_on
+                game_on = False
+                time.sleep(0.1)
                 if sand_dodged < 2000:
-                    game_on.append("lost")
-                    print_map()
-                    time.sleep(0.1)
                     print(COLOR_PURPLE + "|" + COLOR_RED + "     You Lost The Game     " + COLOR_PURPLE + "|")
-                    print(COLOR_PURPLE +"|---------------------------|")
                 else:
-                    game_on.append("lost")
-                    print_map()
-                    time.sleep(0.1)
                     print(COLOR_PURPLE + "|" + COLOR_GREEN + "     You Won The Game!     " + COLOR_PURPLE + "|")
-                    print(COLOR_PURPLE + "|---------------------------|")
+                print(COLOR_PURPLE + "+---------------------------+")
 
 
 clock = threading.Thread(target=timer)
@@ -145,7 +141,7 @@ sandUpdater.start()
 player_position = 14
 map[PLAYER_ROW][player_position] = COLOR_RED + "O" + COLOR_YELLOW
 
-while len(game_on) < 1:
+while game_on:
     key = getch()
     if key == b'K':
         if player_position > 1:
