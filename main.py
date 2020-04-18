@@ -209,7 +209,7 @@ def play_again():
                    "\\\\Do You Want To Play", " ",
                    "\\\\Do You Want To Play Again", " ",
                    "\\\\Do You Want To Play Again?", " ",
-                   "\\\\Do You Want To Play Again?\n(yes/no)"]
+                   "\\\\Do You Want To Play Again?"]
     for i in play_again_list:
         time.sleep(0.1)
         clear()
