@@ -124,6 +124,97 @@ def check_impact():
                 else:
                     print(COLOR_PURPLE + "|" + COLOR_GREEN + "     You Won The Game!     " + COLOR_PURPLE + "|")
                 print(COLOR_PURPLE + "+---------------------------+")
+                threading.Thread(target=show_credits).start()
+
+
+def show_credits():
+    credit_list = ["|                           |",
+                   "|                           |",
+                   "|                           |",
+                   "|       Game Creator:       |",
+                   "|    Guilherme Manteigas    |",
+                   "|                           |",
+                   "|                           |",
+                   "|                           |",
+                   "|                           |",
+                   "|           Thank           |",
+                   "|            You            |",
+                   "|                           |",
+                   "|            For            |",
+                   "|          Playing          |",
+                   "|            :D             |",
+                   "|                           |",
+                   "|                           |",
+                   "+---------------------------+"]
+
+    for i in credit_list:
+        time.sleep(0.3)
+        print(i)
+    time.sleep(1)
+    threading.Thread(target=play_again).start()
+
+
+def play_again():
+    play_again_list = [" ",
+                   "+---------------------------+\n"+
+                   "|                           |\n"+
+                   "|                           |\n"+
+                   "|                           |\n"+
+                   "|       Game Creator:       |\n"+
+                   "|    Guilherme Manteigas    |\n"+
+                   "|                           |\n"+
+                   "|                           |\n"+
+                   "|                           |\n"+
+                   "|                           |\n"+
+                   "|           Thank           |\n"+
+                   "|            You            |\n"+
+                   "|                           |\n"+
+                   "|            For            |\n"+
+                   "|          Playing          |\n"+
+                   "|            :D             |\n"+
+                   "|                           |\n"+
+                   "|                           |\n"+
+                   "+---------------------------+",
+                   " "," ",
+                   "+---------------------------+\n" +
+                   "|                           |\n" +
+                   "|                           |\n" +
+                   "|                           |\n" +
+                   "|       Game Creator:       |\n" +
+                   "|    Guilherme Manteigas    |\n" +
+                   "|                           |\n" +
+                   "|                           |\n" +
+                   "|                           |\n" +
+                   "|                           |\n" +
+                   "|           Thank           |\n" +
+                   "|            You            |\n" +
+                   "|                           |\n" +
+                   "|            For            |\n" +
+                   "|          Playing          |\n" +
+                   "|            :D             |\n" +
+                   "|                           |\n" +
+                   "|                           |\n" +
+                   "+---------------------------+",
+                   " ", " ",
+                   "\\"," ",
+                   " ", " ",
+                   "\\\\", " ",
+                   "\\\\Do", " ",
+                   "\\\\Do You", " ",
+                   "\\\\Do You Want", " ",
+                   "\\\\Do You Want To", " ",
+                   "\\\\Do You Want To Play", " ",
+                   "\\\\Do You Want To Play Again", " ",
+                   "\\\\Do You Want To Play Again?", " ",
+                   "\\\\Do You Want To Play Again?(yes/no)"]
+    for i in play_again_list:
+        time.sleep(0.5)
+        clear()
+        print(i)
+
+    answer = input("")
+    if answer == "yes" or answer == "Yes" or answer == "y" or answer == "Y":
+
 
 
 clock = threading.Thread(target=timer)
