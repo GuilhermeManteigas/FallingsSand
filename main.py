@@ -62,6 +62,7 @@ def timer():
         time.sleep(0.1)
         global game_time
         game_time += 100
+        threading.Thread(target=print_map).start()
 
 
 def get_time(time):
@@ -72,7 +73,6 @@ def get_time(time):
 
 
 def print_map():
-    while game_on:
         temp = ""
         for i in map:
             for j in i:
@@ -97,7 +97,7 @@ def create_sand():
 
 def update_sand():
     while game_on:
-        time.sleep(0.5)
+        time.sleep(0.3)
         for index, i in enumerate(sand_list):
             vertical = i[0]
             horizontal = i[1]
@@ -128,9 +128,6 @@ def check_impact():
 
 clock = threading.Thread(target=timer)
 clock.start()
-
-mapUpdater = threading.Thread(target=print_map)
-mapUpdater.start()
 
 sandCreator = threading.Thread(target=create_sand)
 sandCreator.start()
