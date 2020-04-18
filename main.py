@@ -5,6 +5,8 @@ from time import sleep
 import ctypes
 import random
 import time
+import sys
+import subprocess
 
 kernel32 = ctypes.windll.kernel32
 kernel32.SetConsoleMode(kernel32.GetStdHandle(-10), 128)
@@ -27,6 +29,7 @@ game_on = True
 game_time = 0
 sand_dodged = 0
 sand_list = []
+player_position = 14
 
 map = [
     [COLOR_PURPLE + "+", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-",
@@ -148,7 +151,7 @@ def show_credits():
                    "+---------------------------+"]
 
     for i in credit_list:
-        time.sleep(0.3)
+        time.sleep(0.2)
         print(i)
     time.sleep(1)
     threading.Thread(target=play_again).start()
@@ -206,38 +209,45 @@ def play_again():
                    "\\\\Do You Want To Play", " ",
                    "\\\\Do You Want To Play Again", " ",
                    "\\\\Do You Want To Play Again?", " ",
-                   "\\\\Do You Want To Play Again?(yes/no)"]
+                   "\\\\Do You Want To Play Again?\n(yes/no)"]
     for i in play_again_list:
-        time.sleep(0.5)
+        time.sleep(0.1)
         clear()
         print(i)
 
-    answer = input("")
-    if answer == "yes" or answer == "Yes" or answer == "y" or answer == "Y":
+    answer = input("(yes/no)\n")
+    if answer == "yes" or answer == "Yes" or answer == "y" or answer == "Y" or answer == "es":
+        os.system('py "main.py"')
+    else:
+        os.system('exit')
 
 
+def start_game():
+    global map
+    global player_position
+    map[PLAYER_ROW][player_position] = COLOR_RED + "O" + COLOR_YELLOW
 
-clock = threading.Thread(target=timer)
-clock.start()
+    clock = threading.Thread(target=timer)
+    clock.start()
 
-sandCreator = threading.Thread(target=create_sand)
-sandCreator.start()
+    sand_creator = threading.Thread(target=create_sand)
+    sand_creator.start()
 
-sandUpdater = threading.Thread(target=update_sand)
-sandUpdater.start()
+    sand_updater = threading.Thread(target=update_sand)
+    sand_updater.start()
 
-player_position = 14
-map[PLAYER_ROW][player_position] = COLOR_RED + "O" + COLOR_YELLOW
+    while game_on:
+        key = getch()
+        if key == b'K':
+            if player_position > 1:
+                map[PLAYER_ROW][player_position] = " "
+                player_position -= 1
+                map[PLAYER_ROW][player_position] = COLOR_RED + "O" + COLOR_YELLOW
+        elif key == b'M':
+            if player_position < 27:
+                map[PLAYER_ROW][player_position] = " "
+                player_position += 1
+                map[PLAYER_ROW][player_position] = COLOR_RED + "O" + COLOR_YELLOW
 
-while game_on:
-    key = getch()
-    if key == b'K':
-        if player_position > 1:
-            map[PLAYER_ROW][player_position] = " "
-            player_position -= 1
-            map[PLAYER_ROW][player_position] = COLOR_RED + "O" + COLOR_YELLOW
-    elif key == b'M':
-        if player_position < 27:
-            map[PLAYER_ROW][player_position] = " "
-            player_position += 1
-            map[PLAYER_ROW][player_position] = COLOR_RED + "O" + COLOR_YELLOW
+
+start_game()
